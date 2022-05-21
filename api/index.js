@@ -25,7 +25,6 @@ const categorySchema = {
     data: [drugSchema],
 }
 
-const Drug = mongoose.model('drug', drugSchema);
 const Category = mongoose.model('category', categorySchema);
 
 app.route('/api/categories')
@@ -35,6 +34,19 @@ app.route('/api/categories')
             res.send(err);
         } else {
             res.send(foundCategories);
+        }
+    })
+})
+.post(function(req, res) {
+    let newCate = new Category({
+        category_name: req.body.title,
+        data: req.body.data,
+    })
+    newCate.save(function(err) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send('Category added !')
         }
     })
 })
