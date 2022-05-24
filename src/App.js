@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from 'react';
+import styled from 'styled-components';
+import NavBar from './components/NavBar';
 import axios from 'axios';
 
 function App() {
@@ -13,20 +15,17 @@ function App() {
       setLoading(false)
     })
   }, [])
-  let count = 0;
-
-  data.forEach(category => {
-    category.data.forEach(med => {
-      count += med.quantity;
-    })
-  })
   return (
-    <div>
-      {
-        loading ? <p>Loading...</p> : `number of drugs is ${data[0].data.length}  quantity of all drugs is ${count}`
-      }
-    </div>
+    <Container>
+      <NavBar />
+    </Container>
   );
 }
 
 export default App;
+
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+`;
