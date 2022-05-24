@@ -15,7 +15,6 @@ app.use(bodyParser.urlencoded({ extended : true }))
 mongoose.connect("mongodb+srv://admin:admin123@cluster0.1vmjs.mongodb.net/?retryWrites=true&w=majority");
 
 const drugSchema = {
-    name_type: String,
     drug_name: String,
     price: Number
 }
