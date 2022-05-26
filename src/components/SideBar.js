@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import Dash from '../assets/Dash.png';
 import Inve from '../assets/Inve.png';
 import Repo from '../assets/Repo.png';
+import { 
+    Link,
+    BrowserRouter as Router
+} from 'react-router-dom';
 
 
 export default function SideBar() {
@@ -10,29 +14,43 @@ export default function SideBar() {
 
     return (
         <Container>
-            <SideSelect style={{backgroundColor: clicked === 'dashboard' && '#009099'}} onClick={() => {setClicked('dashboard')}}>
-                <SideImg alt='Dashboard' src={Dash}/>
-                <SideText>
-                    Dashboard
-                </SideText>
-            </SideSelect>
-            <SideSelect style={{backgroundColor: clicked === 'inventory' && '#009099'}} onClick={() => {setClicked('inventory')}}>
-                <SideImg alt='Inventory' src={Inve}/>
-                <SideText>
-                    Inventory
-                </SideText>
-            </SideSelect>
-            <SideSelect style={{backgroundColor: clicked === 'reports' && '#009099'}} onClick={() => {setClicked('reports')}}>
-                <SideImg style={{height: '8px'}} alt='Reports' src={Repo}/>
-                <SideText>
-                    Reports
-                </SideText>
-            </SideSelect>
-            <Footer>
-                <SideText>
-                    Copyright © 2022 elkhayate.
-                </SideText>
-            </Footer>
+            <Router>
+                <Link style={{textDecoration: 'none'}} to='/'>
+                    <SideSelect 
+                        style={{backgroundColor: clicked === 'dashboard' && '#009099'}} 
+                        onClick={() => {setClicked('dashboard')}}>
+                        <SideImg alt='Dashboard' src={Dash}/>
+                        <SideText>
+                            Dashboard
+                        </SideText>
+                    </SideSelect>
+                </Link>
+                <Link style={{textDecoration: 'none'}} to='inventory'>
+                    <SideSelect 
+                        style={{backgroundColor: clicked === 'inventory' && '#009099'}} 
+                        onClick={() => {setClicked('inventory')}}>
+                        <SideImg alt='Inventory' src={Inve}/>
+                        <SideText>
+                            Inventory
+                        </SideText>
+                    </SideSelect>
+                </Link>
+                <Link style={{textDecoration: 'none'}} to='reports'>
+                    <SideSelect 
+                        style={{backgroundColor: clicked === 'reports' && '#009099'}} 
+                        onClick={() => {setClicked('reports')}}>
+                        <SideImg style={{height: '8px'}} alt='Reports' src={Repo}/>
+                        <SideText>
+                            Reports
+                        </SideText>
+                    </SideSelect>
+                </Link>
+                <Footer>
+                    <SideText>
+                        Copyright © 2022 elkhayate.
+                    </SideText>
+                </Footer>
+            </Router>
         </Container>
     )
 }
