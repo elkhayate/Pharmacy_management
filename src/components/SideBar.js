@@ -28,7 +28,7 @@ export default function SideBar() {
                         </SideText>
                     </SideSelect>
                 </Link>
-                <Link onClick={() => {setTimeout(refresh, 1000)}} style={{textDecoration: 'none'}} to='/inventory'>
+                <Link onClick={() => {setTimeout(refresh, 100)}} style={{textDecoration: 'none'}} to='/inventory'>
                     <SideSelect 
                         style={{backgroundColor: clicked === 'inventory' && '#009099'}} 
                         onClick={() => {setClicked('inventory')}}>
@@ -38,7 +38,7 @@ export default function SideBar() {
                         </SideText>
                     </SideSelect>
                 </Link>
-                <Link onClick={() => {setTimeout(refresh, 1000)}} style={{textDecoration: 'none'}} to='/reports'>
+                <Link onClick={() => {setTimeout(refresh, 100)}} style={{textDecoration: 'none'}} to='/reports'>
                     <SideSelect 
                         style={{backgroundColor: clicked === 'reports' && '#009099'}} 
                         onClick={() => {setClicked('reports')}}>

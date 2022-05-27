@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import NavBar from './components/NavBar';
 import axios from 'axios';
@@ -6,11 +6,12 @@ import SideBar from './components/SideBar';
 import MainBar from './components/MainBar';
 
 function App() {
-
+  const [data, setData] = useState([]);
   useEffect(() => {
     axios.get('http://localhost:8080/api/categories/')
     .then(res => {
       console.log(res.data)
+      setData(res.data)
     })
   }, [])
   
