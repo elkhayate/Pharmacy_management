@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import {withRouter} from 'react-router-dom';
 
-
-function Inventory() {
+export default function Inventory() {
     return (
         <Container>
             inventory
@@ -16,5 +14,3 @@ const Container = styled.div`
     width: 100%;
     background-color: beige;
 `;
-
-export default withRouter(Inventory);

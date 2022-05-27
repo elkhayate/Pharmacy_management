@@ -5,17 +5,20 @@ import Inve from '../assets/Inve.png';
 import Repo from '../assets/Repo.png';
 import { 
     Link,
-    BrowserRouter as Router
+    BrowserRouter as Router,
 } from 'react-router-dom';
 
+const refresh = () => {
+    window.location.reload();
+}
 
 export default function SideBar() {
-    const [clicked, setClicked] = useState('dashboard');
-
+    const currentPath = window.location.href.split('/').slice(-1)[0];
+    const [clicked, setClicked] = useState('' || currentPath);
     return (
         <Container>
             <Router>
-                <Link style={{textDecoration: 'none'}} to='/'>
+                <Link onClick={() => {setTimeout(refresh, 100)}} style={{textDecoration: 'none'}} to='/dashboard'>
                     <SideSelect 
                         style={{backgroundColor: clicked === 'dashboard' && '#009099'}} 
                         onClick={() => {setClicked('dashboard')}}>
@@ -25,7 +28,7 @@ export default function SideBar() {
                         </SideText>
                     </SideSelect>
                 </Link>
-                <Link style={{textDecoration: 'none'}} to='inventory'>
+                <Link onClick={() => {setTimeout(refresh, 1000)}} style={{textDecoration: 'none'}} to='/inventory'>
                     <SideSelect 
                         style={{backgroundColor: clicked === 'inventory' && '#009099'}} 
                         onClick={() => {setClicked('inventory')}}>
@@ -35,7 +38,7 @@ export default function SideBar() {
                         </SideText>
                     </SideSelect>
                 </Link>
-                <Link style={{textDecoration: 'none'}} to='reports'>
+                <Link onClick={() => {setTimeout(refresh, 1000)}} style={{textDecoration: 'none'}} to='/reports'>
                     <SideSelect 
                         style={{backgroundColor: clicked === 'reports' && '#009099'}} 
                         onClick={() => {setClicked('reports')}}>

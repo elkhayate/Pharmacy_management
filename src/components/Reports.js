@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import {withRouter} from 'react-router-dom';
 
 
-function Reports() {
+export default function Reports() {
     return (
         <Container>
             reports
@@ -16,5 +15,3 @@ const Container = styled.div`
     width: 100%;
     background-color: blue;
 `;
-
-export default withRouter(Reports);
