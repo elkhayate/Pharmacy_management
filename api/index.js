@@ -14,11 +14,16 @@ app.use(bodyParser.urlencoded({ extended : true }))
 
 mongoose.connect("mongodb+srv://admin:admin123@cluster0.1vmjs.mongodb.net/?retryWrites=true&w=majority");
 
-const drugSchema = {
+const drugSchema = new mongoose.Schema({
     drug_name: String,
     price: Number,
     quantity: Number,
     category_name: String,
+})
+
+const categorySchema = {
+    category_name: String,
+    drugs: [drugSchema]
 }
 
 const saleSchema = {
@@ -26,65 +31,106 @@ const saleSchema = {
     quantity: Number,
     price: Number,
     category_name: String,
+    date: Date,
 }
 
 const Drug = mongoose.model('drug', drugSchema);
+const Category = mongoose.model('category', categorySchema);
 const Sale = mongoose.model('sale', saleSchema);
 
 
-app.route('/api/drugs')
+
+app.route('/api/categories')
 .get(function(req, res) {
-    Drug.find({}, function(err, foundDrugs) {
+    Category.find({}, function(err, foundCategories) {
         if (err) {
             res.send(err);
         } else {
-            res.send(foundDrugs);
+            res.send(foundCategories);
         }
     })
 })
 .post(function(req, res) {
-    let newDrug = new Drug({
-        drug_name: req.body.drug,
+    const newCategory = new Category({
+        category_name: req.body.name,
+        drugs: [],
+    })
+
+    newCategory.save(function(err) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send('category added !');
+        }
+    })
+})
+
+
+app.route('/api/drug')
+.get(function(req, res) {
+    Category.findOne({_id: req.body.id}, function(err, foundCategory) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(foundCategory.drugs);
+        }
+    })
+})
+.post(function(req, res) {
+    const newItem = new Drug({
+        drug_name: req.body.name,
         price: req.body.price,
         quantity: req.body.quantity,
         category_name: req.body.category,
     });
-
-    newDrug.save(function(err) {
+    
+    Category.findOne({category_name: req.body.category}, function(err, foundCategory) {
         if (err) {
             res.send(err);
-        } else {
-            res.send('drug added !');
         }
+        foundCategory.drugs.push(newItem);
+        foundCategory.save();
+        res.send('drug added!');
     })
+
+    newItem.save();
 })
+
 
 app.route('/api/sold')
 .get(function(req, res) {
-    Sale.find({}, function(err, foundSold) {
+    Sale.find({}, function(err, foundItems) {
         if (err) {
             res.send(err);
         } else {
-            res.send(foundSold);
+            res.send(foundItems);
         }
     })
 })
 .post(function(req, res) {
-    const query = {_id: req.body.id}
-    Drug.findOne(query, function(err, drugFound) {
+    Category.findOne({category_name: req.body.category}, function(err, foundCategory) {
         if (err) {
-            res.send('not Found!')
-        } else {
-            drugFound.quantity -= req.body.quantity;
-            drugFound.save()
-            res.send('done!')
+            res.send(err);
         }
-    })
-    
-    
-   
-})
+        foundCategory['drugs'].map(drug => {
+            return drug.drug_name === req.body.name
+                ? drug.quantity -= req.body.quantity
+                : drug;
+        })
 
+        foundCategory.save();
+    })
+    const soldItem = new Sale({
+        drug_name: req.body.name,
+        quantity: req.body.quantity,
+        price: req.body.price,
+        category_name: req.body.category,
+        date: new Date(),
+    });
+
+    soldItem.save();
+    res.send('item sold !');
+})
 
 app.listen(PORT, function() {
     console.log(`Server run on port : ${PORT}`);
