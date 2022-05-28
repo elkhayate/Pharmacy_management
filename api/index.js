@@ -120,6 +120,14 @@ app.route('/api/sold')
 
         foundCategory.save();
     })
+
+    Drug.findOne({drug_name: req.body.name}, function(err, foundDrug) {
+        if (err) {
+            res.send(err);
+        }
+        foundDrug.quantity -= req.body.quantity;
+        foundDrug.save();
+    })
     const soldItem = new Sale({
         drug_name: req.body.name,
         quantity: req.body.quantity,
