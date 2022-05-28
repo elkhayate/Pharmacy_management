@@ -16,38 +16,73 @@ mongoose.connect("mongodb+srv://admin:admin123@cluster0.1vmjs.mongodb.net/?retry
 
 const drugSchema = {
     drug_name: String,
-    price: Number
-}
-
-const categorySchema = {
+    price: Number,
+    quantity: Number,
     category_name: String,
-    data: [drugSchema],
 }
 
-const Category = mongoose.model('category', categorySchema);
+const saleSchema = {
+    drug_name: String,
+    quantity: Number,
+    price: Number,
+    category_name: String,
+}
 
-app.route('/api/categories')
+const Drug = mongoose.model('drug', drugSchema);
+const Sale = mongoose.model('sale', saleSchema);
+
+
+app.route('/api/drugs')
 .get(function(req, res) {
-    Category.find({}, function(err, foundCategories) {
+    Drug.find({}, function(err, foundDrugs) {
         if (err) {
             res.send(err);
         } else {
-            res.send(foundCategories);
+            res.send(foundDrugs);
         }
     })
 })
 .post(function(req, res) {
-    let newCate = new Category({
-        category_name: req.body.title,
-        data: req.body.data,
-    })
-    newCate.save(function(err) {
+    let newDrug = new Drug({
+        drug_name: req.body.drug,
+        price: req.body.price,
+        quantity: req.body.quantity,
+        category_name: req.body.category,
+    });
+
+    newDrug.save(function(err) {
         if (err) {
             res.send(err);
         } else {
-            res.send('Category added !')
+            res.send('drug added !');
         }
     })
+})
+
+app.route('/api/sold')
+.get(function(req, res) {
+    Sale.find({}, function(err, foundSold) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(foundSold);
+        }
+    })
+})
+.post(function(req, res) {
+    const query = {_id: req.body.id}
+    Drug.findOne(query, function(err, drugFound) {
+        if (err) {
+            res.send('not Found!')
+        } else {
+            drugFound.quantity -= req.body.quantity;
+            drugFound.save()
+            res.send('done!')
+        }
+    })
+    
+    
+   
 })
 
 

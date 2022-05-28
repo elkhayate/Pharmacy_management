@@ -74,5 +74,3 @@ const SecondPart = styled.div`
     width: 100%;
     background-color: white;
 `;
-
-const Title = styled
