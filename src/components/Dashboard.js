@@ -6,6 +6,7 @@ import medical from '../assets/medical.png';
 import payments from '../assets/payments.png';
 import warning from '../assets/warning.png';
 import health from '../assets/health.png';
+import RectInfo from './subComponents/RectInfo';
 
 export default function Dashboard() {
     return (
@@ -40,7 +41,13 @@ export default function Dashboard() {
                 </DashInfos>
             </FirstPart>
             <SecondPart>
-
+                <RectInfo 
+                    title = 'Inventory'
+                    firstTitle = '298'
+                    firstPara = 'Total no of Medicines'
+                    secondTitle = '24'
+                    secondPara = 'Medicines Groups'
+                />
             </SecondPart>
         </Container>
     );
