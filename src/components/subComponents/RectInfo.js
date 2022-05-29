@@ -55,13 +55,15 @@ const SubPara = styled.p`
 `;
 
 const Container = styled.div`
-    width: 456px;
-    height: 140px;
+    width: 576px;
+    height: 180px;
     background: #FFFFFF;
     border: 1px solid rgba(29, 36, 46, 0.3);
     border-radius: 4px;
     display: flex;
     flex-direction: column;
+    margin-top: 50px;
+    margin-right: 50px;
 `;
 
 const FirstPart = styled.div`

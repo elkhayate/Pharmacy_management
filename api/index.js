@@ -68,11 +68,11 @@ app.route('/api/categories')
 
 app.route('/api/drug')
 .get(function(req, res) {
-    Category.findOne({_id: req.body.id}, function(err, foundCategory) {
+    Drug.find({}, function(err, foundDrugs) {
         if (err) {
             res.send(err);
         } else {
-            res.send(foundCategory.drugs);
+            res.send(foundDrugs);
         }
     })
 })

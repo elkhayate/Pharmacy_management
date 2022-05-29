@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import DashInfo from './subComponents/DashInfo';
 import SectionTitle from './subComponents/SectionTitle';
@@ -7,8 +7,14 @@ import payments from '../assets/payments.png';
 import warning from '../assets/warning.png';
 import health from '../assets/health.png';
 import RectInfo from './subComponents/RectInfo';
+import {connect} from 'react-redux';
 
-export default function Dashboard() {
+function Dashboard(props) {
+    const [data, setData] = useState({drugs:[]})
+    useEffect(() => {
+        setData(props.data)
+    }, [props.data])
+    console.log(props.data)
     return (
         <Container>
             <FirstPart>
@@ -41,24 +47,45 @@ export default function Dashboard() {
                 </DashInfos>
             </FirstPart>
             <SecondPart>
-                <RectInfo 
-                    title = 'Inventory'
-                    firstTitle = '298'
-                    firstPara = 'Total no of Medicines'
-                    secondTitle = '24'
-                    secondPara = 'Medicines Groups'
-                />
+                <Wrapper>
+                    <RectInfo 
+                        title = 'Inventory'
+                        firstTitle = {data.drugs.length}
+                        firstPara = 'Total no of Medicines'
+                        secondTitle = '24'
+                        secondPara = 'Medicines Groups'
+                    />
+                    <RectInfo 
+                        title = 'Inventory'
+                        firstTitle = '298'
+                        firstPara = 'Total no of Medicines'
+                        secondTitle = '24'
+                        secondPara = 'Medicines Groups'
+                    />
+                    <RectInfo 
+                        title = 'Inventory'
+                        firstTitle = '298'
+                        firstPara = 'Total no of Medicines'
+                        secondTitle = '24'
+                        secondPara = 'Medicines Groups'
+                    />
+                </Wrapper>
             </SecondPart>
         </Container>
     );
 }
 
+function mapStatetoProps(reduxStore){
+    return {
+      data : reduxStore
+    }
+  }
+export default connect(mapStatetoProps)(Dashboard);
 
 
 const Container = styled.div`
     height: 100%;
     width: 100%;
-    
 `;
 
 const FirstPart = styled.div`
@@ -80,4 +107,12 @@ const SecondPart = styled.div`
     height: calc(100vh - 460px);
     width: 100%;
     background-color: white;
+`;
+
+const Wrapper = styled.div`
+    width: 95%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 `;
