@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import Dash from '../assets/Dash.png';
 import Inve from '../assets/Inve.png';
 import Repo from '../assets/Repo.png';
+import Confi from '../assets/confi.png';
+
 import { 
     Link,
     BrowserRouter as Router,
@@ -48,6 +50,16 @@ export default function SideBar() {
                         </SideText>
                     </SideSelect>
                 </Link>
+                <Link onClick={() => {setTimeout(refresh, 100)}} style={{textDecoration: 'none'}} to='/configuration'>
+                    <SideSelect 
+                        style={{backgroundColor: clicked === 'configuration' && '#009099'}} 
+                        onClick={() => {setClicked('configuration')}}>
+                        <SideImg alt='Configuration' src={Confi}/>
+                        <SideText>
+                            Configuration
+                        </SideText>
+                    </SideSelect>
+                </Link>
                 <Footer>
                     <SideText>
                         Copyright © 2022 elkhayate.
@@ -60,11 +72,13 @@ export default function SideBar() {
 
 const Footer = styled.div`
     height: 76px;
-    margin-top: calc(100vh - 344px);
+    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
     align-content: center;
+    bottom: 0;
+    width: 100%;
 `;
 
 const Container = styled.div`
@@ -73,6 +87,7 @@ const Container = styled.div`
     background-color: #283342;
     display: flex;
     flex-direction: column;
+    position: relative;
 `;
 
 const SideImg = styled.img`

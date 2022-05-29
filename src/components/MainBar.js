@@ -8,6 +8,7 @@ import {
 import Dashboard from './Dashboard';
 import Inventory from './Inventory';
 import Reports from './Reports';
+import Configuration from './Configuration';
 
 export default function MainBar() {
     return(
@@ -18,6 +19,7 @@ export default function MainBar() {
                     <Route  path="/dashboard"   element={<Dashboard/>} />
                     <Route  path="/inventory" element={<Inventory/>} />
                     <Route  path="/reports" element={<Reports/>} />
+                    <Route  path="/configuration" element={<Configuration/>} />
                 </Routes>
             </Router>
         </Container>

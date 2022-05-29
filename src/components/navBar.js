@@ -1,24 +1,35 @@
 import React from 'react';
 import styled from 'styled-components';
 import logo from "../assets/logo.png";
+import { Link, BrowserRouter as Router } from 'react-router-dom';
+
+const refresh = () => {
+    window.location.reload();
+}
 
 export default function NavBar() {
     const date = new Date();
     const monthNames = [ "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December" ];
     return (
-        <Nav>
-            <SidePart> 
-                <Logo src={logo} alt = 'pharmacy logo'/>
-                <LogoText>Pharma One</LogoText>
-            </SidePart>
-            <MainPart>
-                <Salut>
-                    <Morning>Have a nice Day!</Morning>
-                    <Time>{`${date.getDate()}, ${monthNames[date.getMonth()]}`}</Time>
-                </Salut>
-            </MainPart>
-        </Nav>
+        <Router>
+            <Nav>
+                <SidePart> 
+                    <Logo src={logo} alt = 'pharmacy logo'/>
+                    <LogoText>
+                        <Link onClick={() => {setTimeout(refresh, 100)}} style={{textDecoration: 'none', color: 'white'}} to='/'>
+                            Pharma One
+                        </Link>
+                    </LogoText>
+                </SidePart>
+                <MainPart>
+                    <Salut>
+                        <Morning>Have a nice Day!</Morning>
+                        <Time>{`${date.getDate()}, ${monthNames[date.getMonth()]}`}</Time>
+                    </Salut>
+                </MainPart>
+            </Nav>
+        </Router>
     )
 }
 
@@ -84,6 +95,5 @@ const LogoText = styled.h1`
     font-weight: 600;
     font-size: 18px;
     line-height: 24px;
-    color: white;
     margin-left: 20px;
 `;
