@@ -7,18 +7,31 @@ import payments from '../assets/payments.png';
 import warning from '../assets/warning.png';
 import health from '../assets/health.png';
 import RectInfo from './subComponents/RectInfo';
-import {connect} from 'react-redux';
+import axios from 'axios';
 
-function Dashboard(props) {
-    const [data, setData] = useState({drugs:[]})
+
+export default function Dashboard() {
+    const [drugs, setDrugs] = useState([]);
+    const [categories, setCategories] = useState([]);
     useEffect(() => {
-        setData(props.data)
-    }, [props.data])
-    console.log(props.data)
+        axios.get('http://localhost:8080/api/categories')
+        .then(res => {
+            setCategories(res.data);
+            console.log(categories)
+        })
+        axios.get('http://localhost:8080/api/drug')
+        .then(res => {
+            setDrugs(res.data);
+            console.log(drugs)
+        })
+    }, [categories, drugs])
     return (
         <Container>
             <FirstPart>
-                <SectionTitle title = 'Dashboard' info = 'A quick data overview of the inventory.'/>
+                <SectionTitle 
+                    title = 'Dashboard' 
+                    info = 'A quick data overview of the inventory.'
+                />
                 <DashInfos>
                     <DashInfo 
                         borderColor = 'green' 
@@ -50,7 +63,7 @@ function Dashboard(props) {
                 <Wrapper>
                     <RectInfo 
                         title = 'Inventory'
-                        firstTitle = {data.drugs.length}
+                        firstTitle = {drugs.length}
                         firstPara = 'Total no of Medicines'
                         secondTitle = '24'
                         secondPara = 'Medicines Groups'
@@ -74,14 +87,6 @@ function Dashboard(props) {
         </Container>
     );
 }
-
-function mapStatetoProps(reduxStore){
-    return {
-      data : reduxStore
-    }
-  }
-export default connect(mapStatetoProps)(Dashboard);
-
 
 const Container = styled.div`
     height: 100%;

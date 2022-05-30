@@ -10,7 +10,7 @@ app.use(cors({
 }));
 
 
-app.use(bodyParser.urlencoded({ extended : true }))
+app.use(bodyParser.urlencoded({ extended : false }))
 
 mongoose.connect("mongodb+srv://admin:admin123@cluster0.1vmjs.mongodb.net/?retryWrites=true&w=majority");
 
@@ -108,11 +108,12 @@ app.route('/api/sold')
     })
 })
 .post(function(req, res) {
+    console.log(req)
     Category.findOne({category_name: req.body.category}, function(err, foundCategory) {
         if (err) {
             res.send(err);
         }
-        foundCategory['drugs'].map(drug => {
+        foundCategory.drugs.map(drug => {
             return drug.drug_name === req.body.name
                 ? drug.quantity -= req.body.quantity
                 : drug;
