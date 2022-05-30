@@ -60,7 +60,7 @@ export default function Drug(props) {
                     onChange={(e) => setQuantity(parseInt(e.target.value))}
                     required
                 />
-                <Submit type='submit' disabled={quantity === 0}>
+                <Submit type='submit' disabled={quantity === 0} isDisab = {quantity === 0}>
                     SELL
                 </Submit>
             </SellItem>
@@ -104,7 +104,7 @@ const CategoryName = styled.p`
 const SellItem = styled.form`
     width: calc(100% / 5);
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     align-content: center;
 `;
@@ -115,8 +115,14 @@ const SoldQuantity = styled.input`
 
 const Submit = styled.button`
     width: 12%;
+    margin-left: 20px;
     display: flex;
     justify-content: space-around;
     align-items: center;
     align-content: center;
+    cursor: pointer;
+    border: 0;
+    border-radius: 4px;
+    background-color: ${props => props.isDisab ? 'grey' : 'green'};
+    color: white;
 `;
