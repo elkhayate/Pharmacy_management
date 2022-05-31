@@ -1,12 +1,22 @@
 import axios from 'axios';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import SectionTitle from './subComponents/SectionTitle';
 
 export default function Configuration() {
     const [category, setCategory] = useState('');
+    const [medicine, setMedicine] = useState('');
+    const [price, setPrice] = useState('');
+    const [choose, setChoose] = useState('');
+    const [quantity, setQuantity] = useState('');
     const [show, setShow] = useState(false);
-
+    const [data, setData] = useState([]);
+    useEffect(() => {   
+        axios.get('http://localhost:8080/api/categories')
+        .then(res => {
+            setData(res.data);
+        })
+    })
     const handleSubmit = (e) => {
         e.preventDefault();
         setShow(true);
@@ -23,10 +33,10 @@ export default function Configuration() {
     return (    
         <Container>
             <FirstPart>
-                <SectionTitle title = 'Category' info = 'Add New Category here...'/>
+                <SectionTitle title = 'Add New Category'/>
                 <Form onSubmit={handleSubmit}>
                     <TitleLabel>
-                        Category:
+                        Name:
                     </TitleLabel>
                     <TitleForm 
                         type='text'
@@ -45,11 +55,117 @@ export default function Configuration() {
                 </Form>
             </FirstPart>
             <SecondPart>
-                <SectionTitle title = 'Medicine' info = 'Add New Medicine here...'/>
+                <SectionTitle title = 'Add New Medicine'/>
+                <FormMed style={{marginLeft: 0, display: 'flex'}}>
+                    <SubContainer>
+                        <TitleLabel>
+                            Name:
+                        </TitleLabel>
+                        <TitleForm
+                            type='text'
+                            placeholder='Category name...'
+                            onChange={(e) => {setMedicine(e.target.value)}}
+                            value={medicine}
+                            required
+                        />
+                    </SubContainer>
+                    <SubContainer>
+                        <TitleLabel>
+                            Price:
+                        </TitleLabel>
+                        <TitleForm
+                            min='1'  
+                            type='number'
+                            placeholder='Price value (min 1)'
+                            onChange={(e) => {setPrice(e.target.value)}}
+                            value={price}
+                            required
+                        />
+                    </SubContainer>
+                    <SubContainer>
+                        <TitleLabel>
+                            Quantity:
+                        </TitleLabel>
+                        <TitleForm
+                            min='1' 
+                            max='999'
+                            type='number'
+                            placeholder='Stock Qty (1- 999)'
+                            onChange={(e) => {setQuantity(e.target.value)}}
+                            value={quantity}
+                            required
+                        />
+                    </SubContainer>
+                    <SubContainer>
+                        <TitleLabel>
+                            Category:
+                        </TitleLabel>
+                        {
+                            data.map(category => {
+                                return (
+                                    <RadioDiv>
+                                        <Radio 
+                                        type='radio'
+                                        name='category'
+                                        onChange={(e) => {setChoose(e.target.value)}}
+                                        value={choose}
+                                        required
+                                        />
+                                        <RadioLabel>
+                                            {
+                                                category.category_name
+                                            }
+                                        </RadioLabel>
+                                    </RadioDiv>
+                                )
+                            })
+                        }
+                    </SubContainer>
+                    <Submit>
+                        SUBMIT
+                    </Submit>
+                </FormMed>
             </SecondPart>
         </Container>
     );
 };
+
+const RadioDiv = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 10px;
+    padding: 10px;
+    padding-left: 0px;
+`;
+
+const RadioLabel = styled.label`
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+`;
+const Radio = styled.input`
+    cursor: pointer;
+    margin-right: 10px;
+`;
+
+const FormMed = styled.form`
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 87%;
+    margin: auto;
+    margin-top: 50px;
+`;
+
+const SubContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin-bottom: 30px;
+    width: 45%;
+`;
 
 const Sucess = styled.div`
     display: flex;

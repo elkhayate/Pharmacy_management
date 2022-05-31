@@ -7,7 +7,7 @@ import axios from 'axios';
 export default function Drug(props) {
     const [quantity, setQuantity] = useState(0);
     let total = quantity === 0 
-    ? props.price 
+    ? props.price * 1
     : props.price * quantity;
 
     
