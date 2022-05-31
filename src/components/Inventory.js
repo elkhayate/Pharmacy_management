@@ -29,7 +29,17 @@ export default function Inventory() {
             )
             searchMed !== '' && setData(
                 res.data.filter(drug => {
-                    return drug.drug_name.substring(0 ,searchMed.length).toLowerCase() === searchMed.toLowerCase();
+                    return (
+                        drug.drug_name
+                        .substring(0 ,searchMed.length)
+                        .toLowerCase() === 
+                        searchMed
+                        .toLowerCase())
+                    && (
+                        selected !== 'All Categories' 
+                        ? drug.category_name === selected
+                        : true
+                    );
                 })
             )
             setLoading(false);
@@ -144,6 +154,7 @@ const CategoryChoose = styled.select`
     width: 217px;
     height: 38px;
     color: black;
+    margin-right: -30px;
 `;
 const SearchMedic = styled.input`
     box-sizing: border-box;
@@ -153,6 +164,8 @@ const SearchMedic = styled.input`
     width: 340px;
     height: 38px;
     padding: 4px;
+    font-size: 17px;
+    line-height: 21px;
     margin-left: 30px;
 `;
 
