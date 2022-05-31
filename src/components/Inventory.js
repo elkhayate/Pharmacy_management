@@ -8,19 +8,33 @@ import Search from '../assets/Search.png';
 export default function Inventory() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [selected, setSelected] = useState('');
+    const [selected, setSelected] = useState('All Categories');
+    const [categories, setCategories] = useState([]);
+    const [searchMed, setMed] = useState('');
+
     useEffect(() => {
-        axios.get('http://localhost:8080/api/drug')
+        axios.get('http://localhost:8080/api/categories')
         .then(res => {
-            setData(selected === ''
-            ? res.data
-            : res.data.filter(drug =>  {
-                return drug.category_name === selected;
-            }));
-            setLoading(false);
+            setCategories(res.data)
             console.log(res.data)
         })
-    }, [selected]);
+        axios.get('http://localhost:8080/api/drug')
+        .then(res => {
+            selected === 'All Categories' 
+            ? setData(res.data)
+            : setData(
+                res.data.filter(drug => {
+                    return drug.category_name === selected;
+                })
+            )
+            searchMed !== '' && setData(
+                res.data.filter(drug => {
+                    return drug.drug_name.substring(0 ,searchMed.length).toLowerCase() === searchMed.toLowerCase();
+                })
+            )
+            setLoading(false);
+        })
+    }, [selected, searchMed]);
 
     return (
         <Container>
@@ -30,14 +44,29 @@ export default function Inventory() {
                     info = 'List of medicines available for sales.'
                 />
                 <SearchingArea>
-                    <SearchMedic
-                        type='text'
-                        placeholder='Search Medicine Inventory..'
-                    >
-                        
-                    </SearchMedic>
-                    <CategoryChoose>
-
+                    <Label>
+                        <SearchMedic
+                            type='text'
+                            value={searchMed}
+                            onChange={(e) => {setMed(e.target.value)}}
+                            placeholder='Search Medicine Inventory..'
+                        />
+                        <SearchImg src={Search} alt='search button'/>
+                    </Label>
+                    <CategoryChoose value={selected} onChange={(e) => setSelected(e.target.value)}>
+                        <Option value='All Categories'>All categories</Option>
+                        {
+                            categories.map(cate => {
+                                return <Option 
+                                key={cate._id} 
+                                value={cate.category_name}
+                                >
+                                    {
+                                        cate.category_name
+                                    }
+                                </Option>
+                            })
+                        }
                     </CategoryChoose>
                 </SearchingArea>
             </FirstPart>
@@ -77,10 +106,29 @@ export default function Inventory() {
     );
 }
 
-const SearchImg = styled.img`
+const Option = styled.option`
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 21px;
+    color: #1D242E;
+`;
 
+const Label = styled.label`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+`;
+
+const SearchImg = styled.img`
+    margin-left: -20px;
+    cursor: pointer;
+    margin-bottom: 0px;
 `;
 const SearchingArea = styled.div`
+    position: absolute;
+    margin: auto;
+    bottom: 0;  
     width: 95%;
     margin: auto;
     display: flex;
@@ -89,14 +137,23 @@ const SearchingArea = styled.div`
     align-content: center;
 `;
 
-const CategoryChoose = styled.input`
-
+const CategoryChoose = styled.select`
+    background: #FFFFFF;
+    border: 0.4px solid #1D242E;
+    border-radius: 4px;
+    width: 217px;
+    height: 38px;
+    color: black;
 `;
 const SearchMedic = styled.input`
     box-sizing: border-box;
     background: #E3EBF3;
     border: 0.2px solid #1D242E;
     border-radius: 4px;
+    width: 340px;
+    height: 38px;
+    padding: 4px;
+    margin-left: 30px;
 `;
 
 
@@ -108,9 +165,11 @@ const Container = styled.div`
 
 const FirstPart = styled.div`
     width: 100%;
+    height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
 `;
 
 const SecondPart = styled.div`
