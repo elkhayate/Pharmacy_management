@@ -13,18 +13,35 @@ import axios from 'axios';
 export default function Dashboard() {
     const [drugs, setDrugs] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [sold, setSold] = useState([]);
     useEffect(() => {
         axios.get('http://localhost:8080/api/categories')
         .then(res => {
             setCategories(res.data);
-            console.log(categories)
         })
+
         axios.get('http://localhost:8080/api/drug')
         .then(res => {
             setDrugs(res.data);
-            console.log(drugs)
         })
-    }, [categories, drugs])
+
+        axios.get('http://localhost:8080/api/sold')
+        .then(res => {
+            setSold(res.data);
+        })
+    }, [])
+    let total = 0;
+    let shortage = 0;
+    let quantity = 0;
+    for (let i = 0; i < drugs.length; i++) {
+        if (drugs[i].quantity <= 5) {
+            shortage++;
+        }
+    }
+    for (let i = 0; i < sold.length; i++) {
+        quantity += sold[i].quantity;
+        total += sold[i].price;
+    }
     return (
         <Container>
             <FirstPart>
@@ -42,19 +59,19 @@ export default function Dashboard() {
                     <DashInfo 
                         borderColor = 'yellow' 
                         imgSrc={payments} 
-                        title='Good' 
+                        title={`${total} $`} 
                         info = 'Revenue' 
                     />
                     <DashInfo 
                         borderColor = 'blue' 
                         imgSrc={medical} 
-                        title='298' 
+                        title={drugs.length} 
                         info = 'Medicines Available' 
                     />
                     <DashInfo 
                         borderColor = 'red' 
                         imgSrc={warning} 
-                        title='0' 
+                        title={shortage} 
                         info = 'Medicine Shortage' 
                     />
                 </DashInfos>
@@ -65,29 +82,27 @@ export default function Dashboard() {
                         title = 'Inventory'
                         firstTitle = {drugs.length}
                         firstPara = 'Total no of Medicines'
-                        secondTitle = '24'
-                        secondPara = 'Medicines Groups'
+                        secondTitle = {categories.length}
+                        secondPara = 'Medicines Categories'
                     />
                     <RectInfo 
-                        title = 'Inventory'
-                        firstTitle = '298'
-                        firstPara = 'Total no of Medicines'
-                        secondTitle = '24'
-                        secondPara = 'Medicines Groups'
+                        title = 'Quick Report'
+                        firstTitle = {quantity}
+                        firstPara = 'Qty of Medicines Sold'
+                        secondTitle = {sold.length}
+                        secondPara = 'Number of sold Medicines'
                     />
                     <RectInfo 
-                        title = 'Inventory'
-                        firstTitle = '298'
-                        firstPara = 'Total no of Medicines'
-                        secondTitle = '24'
-                        secondPara = 'Medicines Groups'
+                        title = 'Last Transaction'
+                        firstTitle = {sold.length &&  `${(sold[sold.length - 1].date.toString()).substring(0, 10)} at ${(sold[sold.length - 1].date.toString()).substring(12, 19)}`}
+                        firstPara = 'Exact selling date'
                     />
                 </Wrapper>
             </SecondPart>
         </Container>
     );
 }
-
+// 12-
 const Container = styled.div`
     height: 100%;
     width: 100%;

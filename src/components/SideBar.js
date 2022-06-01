@@ -16,7 +16,7 @@ const refresh = () => {
 
 export default function SideBar() {
     const currentPath = window.location.href.split('/').slice(-1)[0];
-    const [clicked, setClicked] = useState('' || currentPath);
+    const [clicked, setClicked] = useState(currentPath ||'dashboard');
     return (
         <Container>
             <Router>

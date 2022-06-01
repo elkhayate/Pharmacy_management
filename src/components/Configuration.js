@@ -11,12 +11,15 @@ export default function Configuration() {
     const [quantity, setQuantity] = useState('');
     const [show, setShow] = useState(false);
     const [data, setData] = useState([]);
+    const [secondShow, setSecondShow] = useState(false)
+
     useEffect(() => {   
         axios.get('http://localhost:8080/api/categories')
         .then(res => {
             setData(res.data);
         })
-    })
+    }, [])
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setShow(true);
@@ -29,6 +32,27 @@ export default function Configuration() {
         .then(res => {
             console.log(res.data)
         })
+    }
+
+    const handleSecond = (e) => {
+        e.preventDefault();
+        setSecondShow(true);
+        const params = new URLSearchParams();
+        params.append('name', medicine);
+        params.append('price', price);
+        params.append('quantity', quantity);
+        params.append('category', choose);
+        axios.post('http://localhost:8080/api/drug', params, {
+            headers: { 
+              "Content-Type": "application/x-www-form-urlencoded",
+            }})
+        .then(res => {
+            console.log(res.data)
+        })
+        setMedicine('')
+        setPrice('')
+        setQuantity('')
+        setChoose('')
     }
     return (    
         <Container>
@@ -56,7 +80,7 @@ export default function Configuration() {
             </FirstPart>
             <SecondPart>
                 <SectionTitle title = 'Add New Medicine'/>
-                <FormMed style={{marginLeft: 0, display: 'flex'}}>
+                <FormMed style={{marginLeft: 0, display: 'flex'}} onSubmit={handleSecond}>
                     <SubContainer>
                         <TitleLabel>
                             Name:
@@ -103,13 +127,13 @@ export default function Configuration() {
                         {
                             data.map(category => {
                                 return (
-                                    <RadioDiv>
+                                    <RadioDiv key={category._id} >
                                         <Radio 
-                                        type='radio'
-                                        name='category'
-                                        onChange={(e) => {setChoose(e.target.value)}}
-                                        value={choose}
-                                        required
+                                            onChange={(e) => {setChoose(e.target.value)}}
+                                            type='radio'
+                                            name='category'
+                                            value={category.category_name}
+                                            required
                                         />
                                         <RadioLabel>
                                             {
@@ -124,6 +148,10 @@ export default function Configuration() {
                     <Submit>
                         SUBMIT
                     </Submit>
+                    {
+                        secondShow &&
+                        <Sucess>Category Added !</Sucess>
+                    }
                 </FormMed>
             </SecondPart>
         </Container>
@@ -164,7 +192,7 @@ const SubContainer = styled.div`
     flex-direction: column;
     justify-content: start;
     margin-bottom: 30px;
-    width: 45%;
+    width: 42%;
 `;
 
 const Sucess = styled.div`

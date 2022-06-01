@@ -15,7 +15,7 @@ export default function MainBar() {
         <Container>
             <Router>
                 <Routes>
-                    <Route exact path='/' element={<Home/>}/>
+                    <Route exact path='/' element={<Dashboard/>}/>
                     <Route  path="/dashboard"   element={<Dashboard/>} />
                     <Route  path="/inventory" element={<Inventory/>} />
                     <Route  path="/reports" element={<Reports/>} />
@@ -23,14 +23,6 @@ export default function MainBar() {
                 </Routes>
             </Router>
         </Container>
-    );
-}
-
-function Home() {
-    return (
-        <h1>
-            home
-        </h1>
     );
 }
 
