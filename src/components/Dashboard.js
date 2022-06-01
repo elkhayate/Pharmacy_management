@@ -33,9 +33,13 @@ export default function Dashboard() {
     let total = 0;
     let shortage = 0;
     let quantity = 0;
+    let allQuantity = 0;
     for (let i = 0; i < drugs.length; i++) {
+        allQuantity += drugs[i].quantity;
+
         if (drugs[i].quantity <= 5) {
             shortage++;
+            console.log(drugs[i])
         }
     }
     for (let i = 0; i < sold.length; i++) {
@@ -80,8 +84,8 @@ export default function Dashboard() {
                 <Wrapper>
                     <RectInfo 
                         title = 'Inventory'
-                        firstTitle = {drugs.length}
-                        firstPara = 'Total no of Medicines'
+                        firstTitle = {allQuantity}
+                        firstPara = 'Total Qty of Medicines'
                         secondTitle = {categories.length}
                         secondPara = 'Medicines Categories'
                     />

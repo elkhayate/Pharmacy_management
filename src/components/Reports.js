@@ -23,7 +23,7 @@ export default function Reports() {
                     Quantity
                 </InfoBlock>
                 <InfoBlock>
-                    Price
+                    Total
                 </InfoBlock>
                 <InfoBlock>
                     Date

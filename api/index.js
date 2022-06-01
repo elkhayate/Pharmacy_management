@@ -95,6 +95,10 @@ app.route('/api/drug')
 
     newItem.save();
 })
+.delete(function(req, res) {
+    Drug.find({drug_name: req.body.name}).remove().exec();
+    res.send('deleted !')
+})
 
 
 app.route('/api/sold')
