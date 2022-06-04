@@ -34,10 +34,41 @@ const saleSchema = {
     date: Date,
 }
 
+const passwordSchema = new mongoose.Schema({
+    title: String,
+    passWord: String,
+})
+
 const Drug = mongoose.model('drug', drugSchema);
 const Category = mongoose.model('category', categorySchema);
 const Sale = mongoose.model('sale', saleSchema);
+const Pass = mongoose.model('password', passwordSchema);
 
+
+app.route('/api/password')
+.get(function(req, res) {
+    Pass.find({}, function(err, foundPass) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(foundPass);
+        }
+    })
+})
+.post(function(req, res) {
+    let newItem = new Pass({
+        title: req.body.title,
+        passWord: req.body.passWord,
+    })
+
+    newItem.save(function(err) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send('added');
+        }
+    })
+})
 
 
 app.route('/api/categories')

@@ -3,7 +3,13 @@ import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import SectionTitle from './subComponents/SectionTitle';
 
+const refresh = () => {
+    window.location.refresh();
+}
+
 export default function Configuration() {
+    const [correct, setCorrect] = useState(false);
+    const [password, setPassword] = useState('')
     const [category, setCategory] = useState('');
     const [medicine, setMedicine] = useState('');
     const [price, setPrice] = useState('');
@@ -32,8 +38,24 @@ export default function Configuration() {
         .then(res => {
             console.log(res.data)
         })
+        setTimeout(refresh(), 100);
     }
 
+    const handlePass = async (e) => {
+        e.preventDefault()
+        let result = false;
+        await axios.get('http://localhost:8080/api/password')
+        .then(res => {
+            if (password === res.data[0].passWord) {
+                result = true
+            }
+        })
+        if (result) {
+            setCorrect(true);
+        } else {
+            setPassword('')
+        }
+    }
     const handleSecond = (e) => {
         e.preventDefault();
         setSecondShow(true);
@@ -53,7 +75,10 @@ export default function Configuration() {
         setPrice('')
         setQuantity('')
         setChoose('')
+        setTimeout(refresh(), 100);
     }
+
+    if (correct) {
     return (    
         <Container>
             <FirstPart>
@@ -156,6 +181,28 @@ export default function Configuration() {
             </SecondPart>
         </Container>
     );
+    } else {
+        return (
+            <Container style={{flexDirection: 'column'}}>
+                <SectionTitle title='Admin Panel' info='Write your password please.'/>
+                <Form onSubmit={handlePass}>
+                    <TitleLabel>
+                        Password
+                    </TitleLabel>
+                    <TitleForm 
+                        type='password'
+                        value={password}
+                        placeholder='Password goes here..'
+                        onChange={(e) => {setPassword(e.target.value)}}
+                        required
+                    />
+                    <Submit>
+                        OPEN
+                    </Submit>
+                </Form>
+            </Container>
+        );
+    };      
 };
 
 const RadioDiv = styled.div`
