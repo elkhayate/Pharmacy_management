@@ -52,8 +52,9 @@ export default function Configuration() {
         })
         if (result) {
             setCorrect(true);
+            setPassword('');
         } else {
-            setPassword('')
+            setPassword('');
         }
     }
     const handleSecond = (e) => {

@@ -30,7 +30,7 @@ export default function Reports() {
                 </InfoBlock>
             </SellInfo>
             <Selling>
-                {
+                {   
                     data.map(sold => {
                         return <Sell 
                             name = {sold.drug_name}

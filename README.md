@@ -2,7 +2,8 @@ Computer tools for providing a pharmaceutical enterprise
 
 To start the project localy.
 
-1. Install dependencies on final_project and api folder.
-2. npm start on final_project 
-3. nodemon index.js on api folder
+1. Clone Project on your machine
+2. run `npm start` on both directories final_project and api
+3. run `npm start` command on final_project directory
+4. run `nodemon index.js` on api  directory
 

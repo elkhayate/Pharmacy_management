@@ -1,19 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import styled from 'styled-components';
+
 import DashInfo from './subComponents/DashInfo';
 import SectionTitle from './subComponents/SectionTitle';
+import RectInfo from './subComponents/RectInfo';
+
 import medical from '../assets/medical.png';
 import payments from '../assets/payments.png';
 import warning from '../assets/warning.png';
 import health from '../assets/health.png';
-import RectInfo from './subComponents/RectInfo';
-import axios from 'axios';
 
+import axios from 'axios';
+import styled from 'styled-components';
 
 export default function Dashboard() {
     const [drugs, setDrugs] = useState([]);
     const [categories, setCategories] = useState([]);
     const [sold, setSold] = useState([]);
+
     useEffect(() => {
         axios.get('http://localhost:8080/api/categories')
         .then(res => {
@@ -30,10 +33,12 @@ export default function Dashboard() {
             setSold(res.data);
         })
     }, [])
+
     let total = 0;
     let shortage = 0;
     let quantity = 0;
     let allQuantity = 0;
+
     for (let i = 0; i < drugs.length; i++) {
         allQuantity += drugs[i].quantity;
 
@@ -42,10 +47,12 @@ export default function Dashboard() {
             console.log(drugs[i])
         }
     }
+
     for (let i = 0; i < sold.length; i++) {
         quantity += sold[i].quantity;
         total += sold[i].price;
     }
+
     return (
         <Container>
             <FirstPart>
@@ -98,7 +105,11 @@ export default function Dashboard() {
                     />
                     <RectInfo 
                         title = 'Last Transaction'
-                        firstTitle = {sold.length &&  `${(sold[sold.length - 1].date.toString()).substring(0, 10)} at ${(sold[sold.length - 1].date.toString()).substring(12, 19)}`}
+                        firstTitle = {
+                            sold.length
+                             && 
+                             `${(sold[sold.length - 1].date.toString()).substring(0, 10)} at ${(sold[sold.length - 1].date.toString()).substring(12, 19)}`
+                        }
                         firstPara = 'Exact selling date'
                     />
                 </Wrapper>
@@ -106,7 +117,7 @@ export default function Dashboard() {
         </Container>
     );
 }
-// 12-
+
 const Container = styled.div`
     height: 100%;
     width: 100%;
