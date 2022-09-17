@@ -18,7 +18,7 @@ export default function Drug(props) {
         params.append('price', total);
         params.append('category', props.category)
         params.append('quantity', quantity)
-        axios.post('http://localhost:8080/api/sold', params, {
+        axios.post('https://pharmacy-api-bice.vercel.app/api/sold', params, {
             headers: { 
               "Content-Type": "application/x-www-form-urlencoded",
             }})

@@ -13,12 +13,12 @@ export default function Inventory() {
     const [searchMed, setMed] = useState('');
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/categories')
+        axios.get('https://pharmacy-api-bice.vercel.app/api/categories')
         .then(res => {
             setCategories(res.data)
             console.log(res.data)
         })
-        axios.get('http://localhost:8080/api/drug')
+        axios.get('https://pharmacy-api-bice.vercel.app/api/drug')
         .then(res => {
             selected === 'All Categories' 
             ? setData(res.data)

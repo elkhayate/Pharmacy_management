@@ -7,7 +7,7 @@ import Sell from './subComponents/Sell';
 export default function Reports() {
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:8080/api/sold')
+        axios.get('https://pharmacy-api-bice.vercel.app/api/sold')
         .then(res => {
             setData(res.data);
         })

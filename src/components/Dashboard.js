@@ -18,17 +18,17 @@ export default function Dashboard() {
     const [sold, setSold] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/categories')
+        axios.get('https://pharmacy-api-bice.vercel.app/api/categories')
         .then(res => {
             setCategories(res.data);
         })
 
-        axios.get('http://localhost:8080/api/drug')
+        axios.get('https://pharmacy-api-bice.vercel.app/api/drug')
         .then(res => {
             setDrugs(res.data);
         })
 
-        axios.get('http://localhost:8080/api/sold')
+        axios.get('https://pharmacy-api-bice.vercel.app/api/sold')
         .then(res => {
             setSold(res.data);
         })

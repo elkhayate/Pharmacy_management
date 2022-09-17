@@ -20,7 +20,7 @@ export default function Configuration() {
     const [secondShow, setSecondShow] = useState(false)
 
     useEffect(() => {   
-        axios.get('http://localhost:8080/api/categories')
+        axios.get('https://pharmacy-api-bice.vercel.app/api/categories')
         .then(res => {
             setData(res.data);
         })
@@ -31,7 +31,7 @@ export default function Configuration() {
         setShow(true);
         const params = new URLSearchParams();
         params.append('name', category);
-        axios.post('http://localhost:8080/api/categories', params, {
+        axios.post('https://pharmacy-api-bice.vercel.app/api/categories', params, {
             headers: { 
               "Content-Type": "application/x-www-form-urlencoded",
             }})
@@ -44,7 +44,7 @@ export default function Configuration() {
     const handlePass = async (e) => {
         e.preventDefault()
         let result = false;
-        await axios.get('http://localhost:8080/api/password')
+        await axios.get('https://pharmacy-api-bice.vercel.app/api/password')
         .then(res => {
             if (password === res.data[0].passWord) {
                 result = true
@@ -65,7 +65,7 @@ export default function Configuration() {
         params.append('price', price);
         params.append('quantity', quantity);
         params.append('category', choose);
-        axios.post('http://localhost:8080/api/drug', params, {
+        axios.post('https://pharmacy-api-bice.vercel.app/api/drug', params, {
             headers: { 
               "Content-Type": "application/x-www-form-urlencoded",
             }})
